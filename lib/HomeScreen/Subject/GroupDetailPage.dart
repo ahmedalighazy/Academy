@@ -45,7 +45,6 @@ class GroupDetailPage extends StatelessWidget {
       shadowColor: Colors.black.withOpacity(0.1), // Adding shadow
       child: InkWell(
         onTap: () {
-          // يمكنك إضافة أي إجراء هنا إذا كنت ترغب
         },
         borderRadius: BorderRadius.circular(15),
         splashColor: ColorManager.primary.withOpacity(0.1),
@@ -106,7 +105,6 @@ class GroupDetailPage extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.chat_bubble, color: Colors.grey[500]),
                 onPressed: () {
-                  // هنا نقوم بتوجيه المستخدم لصفحة الدردشة عندما يضغط على الأيقونة
                   Navigator.push(
                     context,
                     MaterialPageRoute(

@@ -1,3 +1,4 @@
+import 'package:acadmy/resources_app/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 
@@ -66,6 +67,10 @@ class _ChatStuState extends State<ChatStu> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          Navigator.pop(context);
+        }, icon: Icon(Icons.arrow_back,color: ColorManager.white,)),
+
         title: const Text(
           "Chat AI",
           style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),

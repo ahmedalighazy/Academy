@@ -2,7 +2,6 @@ import 'package:acadmy/HomeScreen/chat/chat_stu.dart';
 import 'package:flutter/material.dart';
 import 'package:acadmy/resources_app/color_manager.dart';
 
-// تعريف مادة دراسية
 class Course {
   final String name;
   final String professor;
@@ -10,7 +9,6 @@ class Course {
   Course({required this.name, required this.professor});
 }
 
-// تعريف السنة الدراسية
 class AcademicYear {
   final String yearName;
   final List<Course> semester1;
@@ -32,7 +30,6 @@ class SubjectStu extends StatefulWidget {
 
 class _SubjectStuState extends State<SubjectStu> {
   final List<AcademicYear> academicYears = [
-    // الفرقة الأولى
     AcademicYear(
       yearName: 'الفرقة الأولى',
       semester1: [
@@ -45,7 +42,6 @@ class _SubjectStuState extends State<SubjectStu> {
         Course(name: 'هياكل بيانات', professor: 'سامي'),
       ],
     ),
-    // الفرقة الثانية
     AcademicYear(
       yearName: 'الفرقة الثانية',
       semester1: [
@@ -57,7 +53,6 @@ class _SubjectStuState extends State<SubjectStu> {
         Course(name: 'برمجة الشبكات', professor: 'أحمد مصطفى'),
       ],
     ),
-    // الفرقة الثالثة
     AcademicYear(
       yearName: 'الفرقة الثالثة',
       semester1: [
@@ -69,7 +64,6 @@ class _SubjectStuState extends State<SubjectStu> {
         Course(name: 'تصميم نظم مدمجة', professor: 'د. صلاح'),
       ],
     ),
-    // الفرقة الرابعة
     AcademicYear(
       yearName: 'الفرقة الرابعة',
       semester1: [
@@ -87,6 +81,7 @@ class _SubjectStuState extends State<SubjectStu> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         backgroundColor: ColorManager.primary,
         title: Text(
           'المواد الدراسية',
@@ -171,6 +166,10 @@ class SemestersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          Navigator.pop(context);
+        }, icon: Icon(Icons.arrow_back,color: ColorManager.white,)),
+
         centerTitle: true,
         backgroundColor: ColorManager.primary,
         title: Text(
@@ -307,6 +306,10 @@ class GroupDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          Navigator.pop(context);
+        }, icon: Icon(Icons.arrow_back,color: ColorManager.white,)),
+
         backgroundColor: ColorManager.primary,
         centerTitle: true,
         title: Text(
@@ -317,6 +320,7 @@ class GroupDetailPage extends StatelessWidget {
             fontSize: 24,
           ),
         ),
+
       ),
       body: ListView.separated(
         padding: EdgeInsets.all(16),
@@ -338,12 +342,14 @@ class GroupDetailPage extends StatelessWidget {
       ),
       shadowColor: Colors.black.withOpacity(0.1),
       child: InkWell(
-        onTap: () {
-          // يمكنك إضافة أي إجراء هنا إذا كنت ترغب
+        onTap: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatStu(),
+            ),
+          );
         },
-        borderRadius: BorderRadius.circular(15),
-        splashColor: ColorManager.primary.withOpacity(0.1),
-        highlightColor: Colors.transparent,
         child: Container(
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -397,17 +403,25 @@ class GroupDetailPage extends StatelessWidget {
                   ],
                 ),
               ),
-              IconButton(
-                icon: Icon(Icons.chat_bubble, color: Colors.grey[500]),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatStu(),
-                    ),
-                  );
-                },
-              ),
+             Padding(
+               padding: const EdgeInsets.all(10),
+               child: Row(
+                 children: [
+                   Container(
+                     padding: EdgeInsets.all(12),
+                     decoration: BoxDecoration(
+                       color: ColorManager.primary.withOpacity(0.1),
+                       borderRadius: BorderRadius.circular(12),
+                     ),
+                     child: Icon(
+                       Icons.chat_outlined,
+                       color: ColorManager.primary,
+                       size: 30,
+                     ),
+                   ),
+                 ],
+               ),
+             )
             ],
           ),
         ),
