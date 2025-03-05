@@ -1,0 +1,2 @@
+D:/Academy/android/app/.cxx/Debug/1u3y1r70/x86/CMakeFiles/edit_cache.dir
+D:/Academy/android/app/.cxx/Debug/1u3y1r70/x86/CMakeFiles/rebuild_cache.dir
