@@ -18,10 +18,7 @@ class _ChatStuState extends State<ChatStu> {
 
   // List of colors related to study theme
   final List<Color> appBarColors = [
-    Color(0xFF87CEEB), // Sky Blue
-    Color(0xFF6B8E23), // Olive Green
-    Color(0xFFFFD700), // Golden Yellow
-    Color(0xFFFFA500), // Soft Orange
+    Color(0xFF3598DB), // Sky Blue
   ];
 
   // Randomly pick an AppBar color

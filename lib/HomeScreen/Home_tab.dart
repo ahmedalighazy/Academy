@@ -16,7 +16,7 @@ class _HomeTabState extends State<HomeTab> {
   List<Widget> homeSelect = [
     SubjectStu(),
     ChatStu(),
-    Profile(),
+    ProfileForm(),
   ];
 
   @override

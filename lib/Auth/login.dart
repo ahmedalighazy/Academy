@@ -1,11 +1,20 @@
 import 'package:acadmy/Auth/register.dart';
+import 'package:acadmy/HomeScreen/Home_tab.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   static const String routeName = 'Login';
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   String email = '';
+
   String password = '';
+
   var formKey = GlobalKey<FormState>();
 
   @override
@@ -23,6 +32,13 @@ class Login extends StatelessWidget {
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
+            leading: InkWell(
+              onTap: (){
+                Navigator.of(context).pop();
+              },
+              child: Icon(Icons.arrow_back,
+                color: Colors.white,),
+            ),
             backgroundColor: Colors.transparent,
             title: Text(
               'Login',
@@ -129,7 +145,7 @@ class Login extends StatelessWidget {
                      Text("Forgot password?",style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w300,
-                       
+
                       ),
                     ),
                     Padding(
@@ -203,6 +219,8 @@ class Login extends StatelessWidget {
         );
         print ("login successfully");
         print (resulte.user?.uid);
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomeTab())
+            , (Route<dynamic> route) => false);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           print('No user found for that email.');

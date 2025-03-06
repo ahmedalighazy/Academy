@@ -1,18 +1,41 @@
+import 'package:acadmy/Auth/hive_preference_util.dart';
+import 'package:acadmy/Auth/login.dart';
+import 'package:acadmy/HomeScreen/Home_tab.dart';
 import 'package:acadmy/resources_app/font_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
 
   static const String routeName = 'register Screen';
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   String firstName = '';
+
   String lastName = '';
+
   String userName = '';
+
   String email = '';
+
   String password = '';
+
   String rePassword = '';
+
   var formKey = GlobalKey<FormState>();
+
+  static checkHiveData ()async{
+    String? name = await HivePreferenceUtil.getName();
+    String? email = await HivePreferenceUtil.getEmail();
+
+    print('name : $name');
+    print('email : $email');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +52,13 @@ class RegisterScreen extends StatelessWidget {
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
+            leading: InkWell(
+              onTap: (){
+                Navigator.of(context).pop();
+              },
+              child: Icon(Icons.arrow_back,
+              color: Colors.white,),
+            ),
             backgroundColor: Colors.transparent,
             title: Text(
               'Create Account',
@@ -49,7 +79,7 @@ class RegisterScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.2,
+                      height: MediaQuery.of(context).size.height * 0.15,
                     ),
                     // Enter First name
                     TextFormField(
@@ -290,11 +320,26 @@ class RegisterScreen extends StatelessWidget {
                               Icon(
                                 Icons.arrow_forward_outlined,
                                 color: Colors.white,
-                              )
+                              ),
+
                             ],
                           ),
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.of(context).pushNamed(Login.routeName);
+                      },
+                      child: Text("Or Sign in",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+
+                        ),),
                     )
                   ],
                 ),
@@ -314,7 +359,15 @@ class RegisterScreen extends StatelessWidget {
           email: email,
           password: password,
         );
+        String fullName = "$firstName $lastName";
+        await result.user?.updateDisplayName(fullName);
+        await result.user?.reload();
+        HivePreferenceUtil.saveName(value:fullName);
+         HivePreferenceUtil.saveEmail(value: result.user?.email ?? '');
         print('firebase auth id : ${result.user?.uid}');
+        checkHiveData();
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomeTab())
+            , (Route<dynamic> route) => false);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           print('The password provided is too weak.');
