@@ -1,5 +1,6 @@
 import 'package:acadmy/Auth/register.dart';
 import 'package:acadmy/HomeScreen/Home_tab.dart';
+import 'package:acadmy/resources_app/color_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,9 +13,8 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   String email = '';
-
   String password = '';
-
+  bool isLoading = false; // متغير للتحكم في حالة التحميل
   var formKey = GlobalKey<FormState>();
 
   @override
@@ -25,7 +25,7 @@ class _LoginState extends State<Login> {
           color: Colors.white,
         ),
         Image.asset(
-          'assets/images/background.png',
+          'assets/images/backGround.png',
           width: double.infinity,
           fit: BoxFit.fill,
         ),
@@ -33,11 +33,13 @@ class _LoginState extends State<Login> {
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             leading: InkWell(
-              onTap: (){
+              onTap: () {
                 Navigator.of(context).pop();
               },
-              child: Icon(Icons.arrow_back,
-                color: Colors.white,),
+              child: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
             ),
             backgroundColor: Colors.transparent,
             title: Text(
@@ -65,7 +67,7 @@ class _LoginState extends State<Login> {
                     Text(
                       "Welcome Back ",
                       style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     // enter email
                     Padding(
@@ -74,11 +76,11 @@ class _LoginState extends State<Login> {
                         decoration: InputDecoration(
                             labelText: 'Email',
                             labelStyle:
-                                TextStyle(color: Colors.black, fontSize: 18),
+                            TextStyle(color: Colors.black, fontSize: 18),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
                               borderSide:
-                                  BorderSide(color: Colors.black, width: 2),
+                              BorderSide(color: Colors.black, width: 2),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -88,19 +90,19 @@ class _LoginState extends State<Login> {
                             errorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
                                 borderSide:
-                                    BorderSide(color: Colors.red, width: 2))),
+                                BorderSide(color: Colors.red, width: 2))),
                         onChanged: (text) {
                           email = text;
                         },
                         validator: (text) {
                           final bool emailValid = RegExp(
-                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                               .hasMatch(text!);
                           if (text == null || text.trim().isEmpty) {
                             return 'Please Enter Email';
                           }
                           if (!emailValid) {
-                            return "Please Enter Email";
+                            return "Please Enter Valid Email";
                           }
                           return null;
                         },
@@ -113,11 +115,11 @@ class _LoginState extends State<Login> {
                         decoration: InputDecoration(
                             labelText: 'Password',
                             labelStyle:
-                                TextStyle(color: Colors.black, fontSize: 18),
+                            TextStyle(color: Colors.black, fontSize: 18),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
                               borderSide:
-                                  BorderSide(color: Colors.black, width: 2),
+                              BorderSide(color: Colors.black, width: 2),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -127,25 +129,26 @@ class _LoginState extends State<Login> {
                             errorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
                                 borderSide:
-                                    BorderSide(color: Colors.red, width: 2))),
+                                BorderSide(color: Colors.red, width: 2))),
                         onChanged: (text) {
                           password = text;
                         },
                         validator: (text) {
                           if (text == null || text.trim().isEmpty) {
-                            return 'Please Enter First Name';
+                            return 'Please Enter Password';
                           }
                           if (password.length < 6) {
-                            return " please must be at least 6 chars";
+                            return "Password must be at least 6 characters";
                           }
                           return null;
                         },
                       ),
                     ),
-                     Text("Forgot password?",style: TextStyle(
+                    Text(
+                      "Forgot password?",
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w300,
-
                       ),
                     ),
                     Padding(
@@ -164,9 +167,9 @@ class _LoginState extends State<Login> {
                           ),
                           padding: EdgeInsets.symmetric(
                               horizontal:
-                                  MediaQuery.of(context).size.width * 0.15,
+                              MediaQuery.of(context).size.width * 0.15,
                               vertical:
-                                  MediaQuery.of(context).size.height * 0.02),
+                              MediaQuery.of(context).size.height * 0.02),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -186,20 +189,29 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
-                     SizedBox(
-                       height:20,
-                     ),
-                     GestureDetector(
-                       onTap: (){
-                         Navigator.of(context).pushNamed(RegisterScreen.routeName);
-                       },
-                       child: Text("Or Create My Account",
-                       textAlign: TextAlign.right,
-                       style: TextStyle(
-                         fontSize: 16,
-                         fontWeight: FontWeight.w200,
-                       ),),
-                     )
+                    SizedBox(
+                      height: 20,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(RegisterScreen.routeName);
+                      },
+                      child: Text(
+                        "Or Create My Account",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w200,
+                        ),
+                      ),
+                    ),
+                    // عرض تحميل أثناء تسجيل الدخول
+                    if (isLoading)
+                      Center(
+                        child: CircularProgressIndicator(
+                          color: ColorManager.primary,
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -210,22 +222,51 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void validateForm()async {
-    if(formKey.currentState?.validate() == true){
+  void validateForm() async {
+    if (formKey.currentState?.validate() == true) {
+      setState(() {
+        isLoading = true; // تفعيل حالة التحميل
+      });
+
       try {
-        final resulte = await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: email,
-            password: password
-        );
-        print ("login successfully");
-        print (resulte.user?.uid);
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomeTab())
-            , (Route<dynamic> route) => false);
+        // محاولة تسجيل الدخول
+        final result = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password);
+
+        // إذا تم تسجيل الدخول بنجاح
+        print("Login successfully");
+        print(result.user?.uid);
+
+        // عرض Snackbar في حالة النجاح
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("تم التسجيل بنجاح"),
+          backgroundColor: Colors.grey,
+        ));
+
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => HomeTab()),
+                (Route<dynamic> route) => false);
+
+        setState(() {
+          isLoading = false; // إيقاف التحميل
+        });
       } on FirebaseAuthException catch (e) {
+        setState(() {
+          isLoading = false; // إيقاف التحميل في حالة حدوث خطأ
+        });
+
         if (e.code == 'user-not-found') {
-          print('No user found for that email.');
+          // عرض رسالة خطأ في حالة عدم وجود المستخدم
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("البريد الإلكتروني غير موجود!"),
+            backgroundColor: Colors.red,
+          ));
         } else if (e.code == 'wrong-password') {
-          print('Wrong password provided for that user.');
+          // عرض رسالة خطأ في حالة كلمة المرور غير صحيحة
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("كلمة المرور غير صحيحة"),
+            backgroundColor: Colors.red,
+          ));
         }
       }
     }

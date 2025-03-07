@@ -12,7 +12,7 @@ class FirstScreen extends StatelessWidget {
         Container(
           color: Colors.white,
         ),
-        Image.asset("assets/images/background.png",
+        Image.asset("assets/images/backGround.png",
         width: double.infinity,
         fit: BoxFit.fill,),
         Scaffold(
