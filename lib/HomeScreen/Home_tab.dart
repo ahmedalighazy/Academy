@@ -1,3 +1,4 @@
+import 'package:acadmy/HomeScreen/Home_tech/HomeTech.dart';
 import 'package:flutter/material.dart';
 import 'package:acadmy/HomeScreen/Subject/SubjectStu.dart';
 import 'package:acadmy/HomeScreen/chat/chat_stu.dart';
@@ -16,7 +17,8 @@ class _HomeTabState extends State<HomeTab> {
   List<Widget> homeSelect = [
     SubjectStu(),
     ChatStu(),
-    Profile(),
+    ProfileForm(),
+    HomeTech()
   ];
 
   @override
@@ -100,6 +102,23 @@ class _HomeTabState extends State<HomeTab> {
                 ),
               ),
               label: 'Profile',
+            ),
+            BottomNavigationBarItem(
+              icon: AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: selectedItem == 3 ? Colors.white : Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  Icons.task_sharp,
+                  size: MediaQuery.of(context).size.width * 0.07,
+                  color: selectedItem == 3 ? Colors.blueAccent : Colors.white,
+                ),
+              ),
+              label: 'Task',
             ),
           ],
           backgroundColor: Colors.transparent,

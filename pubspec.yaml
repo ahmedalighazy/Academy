@@ -39,6 +39,12 @@ dependencies:
   chat_gpt_sdk: ^3.1.4
   google_generative_ai: ^0.4.6
   flutter_gemini: ^3.0.0
+  firebase_core: ^3.12.1
+  firebase_auth: ^5.5.1
+  image_picker: ^1.1.2
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  file_picker: ^9.0.2
   shared_preferences: ^2.5.2
 
 
@@ -65,7 +71,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+    - assets/images/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
