@@ -1,7 +1,6 @@
 import 'package:acadmy/resources_app/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatStu extends StatefulWidget {
   static const String routeName = 'chat';
@@ -28,27 +27,27 @@ class _ChatStuState extends State<ChatStu> {
   }
 
   // Load saved messages from SharedPreferences
-  Future<void> _loadMessages() async {
-    final prefs = await SharedPreferences.getInstance();
-    final List<String>? savedMessages = prefs.getStringList('messages');
-    if (savedMessages != null) {
-      setState(() {
-        _messages.addAll(savedMessages.map((message) {
-          final parts = message.split('|');
-          return {'sender': parts[0], 'message': parts[1]};
-        }).toList());
-      });
-    }
-  }
+  // Future<void> _loadMessages() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final List<String>? savedMessages = prefs.getStringList('messages');
+  //   if (savedMessages != null) {
+  //     setState(() {
+  //       _messages.addAll(savedMessages.map((message) {
+  //         final parts = message.split('|');
+  //         return {'sender': parts[0], 'message': parts[1]};
+  //       }).toList());
+  //     });
+  //   }
+  // }
 
   // Save messages to SharedPreferences
-  Future<void> _saveMessages() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedMessages = _messages.map((message) {
-      return '${message['sender']}|${message['message']}';
-    }).toList();
-    await prefs.setStringList('messages', savedMessages);
-  }
+  // Future<void> _saveMessages() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final savedMessages = _messages.map((message) {
+  //     return '${message['sender']}|${message['message']}';
+  //   }).toList();
+  //   await prefs.setStringList('messages', savedMessages);
+  // }
 
   Future<void> _fetchAiResponse(String prompt) async {
     try {
@@ -69,7 +68,7 @@ class _ChatStuState extends State<ChatStu> {
     setState(() {
       _messages.add({'sender': 'ai', 'message': message});
       _isLoading = false;
-      _saveMessages(); // Save messages after update
+      // _saveMessages(); // Save messages after update
     });
   }
 
@@ -80,7 +79,7 @@ class _ChatStuState extends State<ChatStu> {
       _messages.add({'sender': 'student', 'message': _controller.text});
       _isLoading = true;
       _controller.clear();
-      _saveMessages(); // Save messages after sending
+      // _saveMessages(); // Save messages after sending
     });
 
     _fetchAiResponse(_messages.last['message']!);
@@ -89,23 +88,23 @@ class _ChatStuState extends State<ChatStu> {
   @override
   void initState() {
     super.initState();
-    _loadMessages(); // Load saved messages on startup
+    // _loadMessages(); // Load saved messages on startup
   }
 
   // Clear all saved data from SharedPreferences
-  Future<void> _clearMessages() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('messages'); // Remove saved messages when refreshing
-  }
+  // Future<void> _clearMessages() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   await prefs.remove('messages'); // Remove saved messages when refreshing
+  // }
 
   // Refresh the screen by clearing and reloading the messages
-  void _refreshPage() async {
-    await _clearMessages(); // Clear messages from SharedPreferences
-    setState(() {
-      _messages.clear();  // Clear messages from the UI
-    });
-    _loadMessages(); // Reload saved messages
-  }
+  // void _refreshPage() async {
+  //   await _clearMessages(); // Clear messages from SharedPreferences
+  //   setState(() {
+  //     _messages.clear();  // Clear messages from the UI
+  //   });
+  //   _loadMessages(); // Reload saved messages
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +125,8 @@ class _ChatStuState extends State<ChatStu> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white),
-            onPressed: _refreshPage, // Refresh the page when clicked
+            onPressed: (){},
+            // _refreshPage, // Refresh the page when clicked
           ),
         ],
       ),
