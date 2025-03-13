@@ -1,6 +1,4 @@
-import 'package:acadmy/Auth/login.dart';
 import 'package:flutter/material.dart';
-
 import '../../Auth/hive_preference_util.dart';
 
 class ProfileForm extends StatefulWidget {
@@ -17,7 +15,10 @@ class Profile extends State<ProfileForm> {
   String name = '';
   String major = '';
   String year = '';
+  String gpa = '';
   String activities = '';
+  String skills = '';
+  String courses = '';
   String email = '';
 
   @override
@@ -39,14 +40,6 @@ class Profile extends State<ProfileForm> {
     return Scaffold(
       backgroundColor: Colors.white, // اللون الخلفي للصفحة
       appBar: AppBar(
-        actions: [
-          InkWell(
-            onTap: (){
-              Navigator.of(context).pushReplacementNamed(Login.routeName);
-            },
-            child: Icon(Icons.logout),
-          ),
-        ],
         title: const Text(
           'Your Profile',
           style: TextStyle(
@@ -64,6 +57,17 @@ class Profile extends State<ProfileForm> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
+              const SizedBox(height: 20),
+              // صورة الملف الشخصي
+              CircleAvatar(
+                radius: 60,
+                backgroundColor: Color(0xff3598DB).withOpacity(0.2),
+                child: Icon(
+                  Icons.person,
+                  size: 60,
+                  color: Color(0xff3598DB),
+                ),
+              ),
               const SizedBox(height: 20),
               // نموذج إدخال البيانات
               Form(
@@ -83,8 +87,7 @@ class Profile extends State<ProfileForm> {
                         ),
                         filled: true,
                         fillColor: Colors.grey.shade100,
-                        prefixIcon:
-                            Icon(Icons.person, color: Color(0xff3598DB)),
+                        prefixIcon: Icon(Icons.person, color: Color(0xff3598DB)),
                       ),
                       onChanged: (value) {
                         setState(() {
@@ -93,7 +96,7 @@ class Profile extends State<ProfileForm> {
                       },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your full name';
+                          return 'Ahmed';
                         }
                         return null;
                       },
@@ -103,7 +106,7 @@ class Profile extends State<ProfileForm> {
                     TextFormField(
                       controller: TextEditingController(text: email),
                       decoration: InputDecoration(
-                        labelText: 'Email',
+                        labelText: 'ahmed@gmail.com',
                         labelStyle: TextStyle(color: Colors.black),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
@@ -137,8 +140,7 @@ class Profile extends State<ProfileForm> {
                         ),
                         filled: true,
                         fillColor: Colors.grey.shade100,
-                        prefixIcon:
-                            Icon(Icons.school, color: Color(0xff3598DB)),
+                        prefixIcon: Icon(Icons.school, color: Color(0xff3598DB)),
                       ),
                       onChanged: (value) {
                         setState(() {
@@ -179,7 +181,110 @@ class Profile extends State<ProfileForm> {
                         return null;
                       },
                     ),
-
+                    const SizedBox(height: 15),
+                    // المعدل التراكمي (GPA)
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'GPA',
+                        labelStyle: TextStyle(color: Colors.black),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey.shade100,
+                        prefixIcon: Icon(Icons.grade, color: Color(0xff3598DB)),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          gpa = value;
+                        });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your GPA';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 15),
+                    // الأنشطة الطلابية
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Student Activities',
+                        labelStyle: TextStyle(color: Colors.black),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey.shade100,
+                        prefixIcon: Icon(Icons.people, color: Color(0xff3598DB)),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          activities = value;
+                        });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your activities';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 15),
+                    // المهارات
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Skills',
+                        labelStyle: TextStyle(color: Colors.black),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey.shade100,
+                        prefixIcon: Icon(Icons.code, color: Color(0xff3598DB)),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          skills = value;
+                        });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your skills';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 15),
+                    // الدورات التدريبية
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Courses',
+                        labelStyle: TextStyle(color: Colors.black),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey.shade100,
+                        prefixIcon: Icon(Icons.book, color: Color(0xff3598DB)),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          courses = value;
+                        });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your courses';
+                        }
+                        return null;
+                      },
+                    ),
                     const SizedBox(height: 50),
                     // زر حفظ البيانات
                     Center(

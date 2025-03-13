@@ -1,3 +1,4 @@
+import 'package:acadmy/Auth/first_screen.dart';
 import 'package:acadmy/Auth/register.dart';
 import 'package:acadmy/HomeScreen/Home_tab.dart';
 import 'package:acadmy/resources_app/color_manager.dart';
@@ -34,7 +35,7 @@ class _LoginState extends State<Login> {
           appBar: AppBar(
             leading: InkWell(
               onTap: () {
-                Navigator.of(context).pop();
+                Navigator.popAndPushNamed(context, FirstScreen.routeName);
               },
               child: Icon(
                 Icons.arrow_back,

@@ -30,49 +30,103 @@ class SubjectStu extends StatefulWidget {
 
 class _SubjectStuState extends State<SubjectStu> {
   final List<AcademicYear> academicYears = [
+    // First Year
     AcademicYear(
       yearName: 'الفرقة الأولى',
       semester1: [
-        Course(name: 'مقدمة في الحوسبة', professor: 'ناهد'),
+        Course(name: 'مقدمة في البرمجة', professor: 'ناهد'),
         Course(name: 'معالجة النصوص', professor: 'شيماء خاطر'),
-        Course(name: 'أساليب إحصائية', professor: 'محمد غنيم'),
+        Course(name: 'تكنولوجيا المعلومات', professor: 'أحمد أمين'),
+        Course(name: 'نظم قواعد البيانات', professor: 'عطا'),
+        Course(name: 'الرياضيات', professor: 'محمد غنيم'),
+        Course(name: 'نظم تشغيل', professor: 'داليا لطفي'),
+        Course(name: 'طرق تخطيط البرامج', professor: 'داليا لطفي'),
+        Course(name: 'التعليم الالكتروني', professor: 'محمد الشربيني'),
+        Course(name: 'مدخل للعلوم التربوية', professor: 'أماني غبور'),
       ],
       semester2: [
-        Course(name: 'رياضيات حاسبات', professor: 'احمد امين'),
-        Course(name: 'هياكل بيانات', professor: 'سامي'),
+        Course(name: 'أساليب إحصائية', professor: 'محمد غنيم'),
+        Course(name: 'رياضيات حاسبات', professor: 'أحمد أمين'),
+        Course(name: 'مقدمة في الشبكات', professor: 'داليا لطفي'),
+        Course(name: 'صيانة الحاسب', professor: 'داليا لطفي'),
+        Course(name: 'تحليل وتصميم نظم المعلومات', professor: 'مني عصمت'),
+        Course(name: 'اللغة العربية', professor: 'إيهاب'),
+        Course(name: 'تصميم واجهات التفاعل', professor: 'وسام كمال'),
+        Course(name: 'نظم دعم القرار', professor: 'شيماء خاطر'),
+        Course(name: 'قضايا مجتمعية', professor: 'مروة الششتاوي'),
       ],
     ),
+    // Second Year
     AcademicYear(
       yearName: 'الفرقة الثانية',
       semester1: [
-        Course(name: 'جبر خطي', professor: 'عماد محمود'),
-        Course(name: 'خوارزميات', professor: 'علي سعيد'),
+        Course(name: 'برمجة موجهة نحو الكائنات', professor: 'د. حسنية'),
+        Course(name: 'نظم تشغيل حاسبات ٢', professor: 'إيمان العياط'),
+        Course(name: 'الرسم بالحاسب', professor: 'وسام كمال'),
+        Course(name: 'هياكل بيانات و خوارزميات', professor: 'عطا'),
+        Course(name: 'اللغة الإنجليزية', professor: 'عطا'),
+        Course(name: 'تطبيقات الحاسب الآلي', professor: 'أحمد أمين'),
+        Course(name: 'تصميم تعليمي', professor: 'محمد الغريب'),
+        Course(name: 'علم نفس النمو', professor: 'إيمان الجمل'),
       ],
       semester2: [
-        Course(name: 'تصميم الخوارزميات', professor: 'أحمد يوسف'),
-        Course(name: 'برمجة الشبكات', professor: 'أحمد مصطفى'),
+        Course(name: 'برمجة تطبيقات ١', professor: 'د. حسنية'),
+        Course(name: 'برمجة الشبكات', professor: 'داليا لطفي'),
+        Course(name: 'الواقع الافتراضي', professor: 'أحمد أمين'),
+        Course(name: 'محركات بحث', professor: 'داليا لطفي'),
+        Course(name: 'معمارية الحاسبات', professor: 'شيماء خاطر'),
+        Course(name: 'وسائل تعليمية', professor: 'حسن الصباغ'),
+        Course(name: 'أدوات وتطبيقات التقويم الإلكتروني', professor: 'محمد الغريب'),
+        Course(name: 'التدريس المصغر', professor: 'أسعد'),
+        Course(name: 'الأصول الاجتماعية للتربية', professor: 'أماني غبور'),
       ],
     ),
+    // Third Year
     AcademicYear(
       yearName: 'الفرقة الثالثة',
       semester1: [
-        Course(name: 'ذكاء اصطناعي', professor: 'د. محمد عبدالله'),
-        Course(name: 'أنظمة التشغيل', professor: 'د. كريم'),
+        Course(name: 'برمجة متقدمة', professor: 'د. ناهد'),
+        Course(name: 'الرسم بالحاسب ٢', professor: 'وسام كمال'),
+        Course(name: 'الذكاء الاصطناعي', professor: 'إيمان عبد العظيم'),
+        Course(name: 'تحليل بيانات', professor: 'عطا'),
+        Course(name: 'وسائط متعددة', professor: 'أحمد أمين'),
+        Course(name: 'تعليم عن بعد', professor: 'محمد الشربيني'),
+        Course(name: 'مناهج دراسية', professor: 'سعد'),
+        Course(name: 'تاريخ التربية والنظم المقارنة', professor: 'إيهاب'),
+        Course(name: 'سيكولوجية ذوي الاحتياجات الخاصة', professor: 'مروة الششتاوي'),
       ],
       semester2: [
-        Course(name: 'قواعد البيانات', professor: 'د. سامية'),
-        Course(name: 'تصميم نظم مدمجة', professor: 'د. صلاح'),
+        Course(name: 'برمجة تطبيقات 2', professor: 'د. حسنية'),
+        Course(name: 'تصميم مواقع', professor: 'داليا لطفي'),
+        Course(name: 'الرؤية بالحاسب', professor: 'أحمد أمين'),
+        Course(name: 'مستودعات بيانات', professor: 'عطا'),
+        Course(name: 'أمن البيانات', professor: 'مني عصمت'),
+        Course(name: 'طرق التدريس العامة', professor: 'إيمان العياط'),
+        Course(name: 'المدخل إلى التخطيط التربوي', professor: 'أماني غبور'),
+        Course(name: 'علم النفس التربوي', professor: 'أماني غبور'),
       ],
     ),
+    // Fourth Year
     AcademicYear(
       yearName: 'الفرقة الرابعة',
       semester1: [
-        Course(name: 'برمجة تطبيقات الهاتف', professor: 'د. فاطمة'),
-        Course(name: 'شبكات الكمبيوتر', professor: 'د. مصطفى'),
+        Course(name: 'برمجة تطبيقات المحمول', professor: 'د. وسام كمال'),
+        Course(name: 'تطبيقات الحاسب الآلي', professor: 'د. أحمد أمين'),
+        Course(name: 'هندسة البرمجيات', professor: 'د. داليا لطفي'),
+        Course(name: 'النظم القائمة على المعرفة', professor: 'د. منى عصمت'),
+        Course(name: 'تصميم وإنتاج برمجيات', professor: 'د. حسن الصباغ'),
+        Course(name: 'المدخل إلى الإدارة التربوية', professor: 'د. أماني غبور'),
+        Course(name: 'الفروق الفردية', professor: 'د. أمينة شلبي'),
+        Course(name: 'طرق التدريس التخصصية', professor: 'د. إيهاب'),
       ],
       semester2: [
-        Course(name: 'تكنولوجيا المعلومات', professor: 'د. عادل'),
-        Course(name: 'الأمن السيبراني', professor: 'د. أحمد'),
+        Course(name: 'تطوير مناهج', professor: 'د. سوزان عبد الملاك'),
+        Course(name: 'الأصول الفلسفية', professor: 'د. أماني غبور'),
+        Course(name: 'التنقيب في البيانات', professor: 'محمد السيد غليم'),
+        Course(name: 'معالجة اللغات الطبيعية', professor: 'د. ناهد على عماشه'),
+        Course(name: 'اختبار وضمان جودة البرمجيات', professor: 'محمد السيد غليم'),
+        Course(name: 'اتجاهات حديثة في علوم الحاسب', professor: 'د. منى عصمت'),
+        Course(name: 'الصحة النفسية', professor: 'د. مروة إبراهيم الششتاوي'),
       ],
     ),
   ];
@@ -81,7 +135,6 @@ class _SubjectStuState extends State<SubjectStu> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         backgroundColor: ColorManager.primary,
         title: Text(
           'المواد الدراسية',
@@ -166,10 +219,9 @@ class SemestersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: (){
+        leading: IconButton(onPressed: () {
           Navigator.pop(context);
-        }, icon: Icon(Icons.arrow_back,color: ColorManager.white,)),
-
+        }, icon: Icon(Icons.arrow_back, color: ColorManager.white)),
         centerTitle: true,
         backgroundColor: ColorManager.primary,
         title: Text(
@@ -306,10 +358,9 @@ class GroupDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: (){
+        leading: IconButton(onPressed: () {
           Navigator.pop(context);
-        }, icon: Icon(Icons.arrow_back,color: ColorManager.white,)),
-
+        }, icon: Icon(Icons.arrow_back, color: ColorManager.white)),
         backgroundColor: ColorManager.primary,
         centerTitle: true,
         title: Text(
@@ -320,7 +371,6 @@ class GroupDetailPage extends StatelessWidget {
             fontSize: 24,
           ),
         ),
-
       ),
       body: ListView.separated(
         padding: EdgeInsets.all(16),
@@ -342,7 +392,7 @@ class GroupDetailPage extends StatelessWidget {
       ),
       shadowColor: Colors.black.withOpacity(0.1),
       child: InkWell(
-        onTap: (){
+        onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -403,25 +453,25 @@ class GroupDetailPage extends StatelessWidget {
                   ],
                 ),
               ),
-             Padding(
-               padding: const EdgeInsets.all(10),
-               child: Row(
-                 children: [
-                   Container(
-                     padding: EdgeInsets.all(12),
-                     decoration: BoxDecoration(
-                       color: ColorManager.primary.withOpacity(0.1),
-                       borderRadius: BorderRadius.circular(12),
-                     ),
-                     child: Icon(
-                       Icons.chat_outlined,
-                       color: ColorManager.primary,
-                       size: 30,
-                     ),
-                   ),
-                 ],
-               ),
-             )
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: ColorManager.primary.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.chat_outlined,
+                        color: ColorManager.primary,
+                        size: 30,
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
