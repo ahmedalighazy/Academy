@@ -26,29 +26,6 @@ class _ChatStuState extends State<ChatStu> {
     return appBarColors[(DateTime.now().millisecond) % appBarColors.length];
   }
 
-  // Load saved messages from SharedPreferences
-  // Future<void> _loadMessages() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final List<String>? savedMessages = prefs.getStringList('messages');
-  //   if (savedMessages != null) {
-  //     setState(() {
-  //       _messages.addAll(savedMessages.map((message) {
-  //         final parts = message.split('|');
-  //         return {'sender': parts[0], 'message': parts[1]};
-  //       }).toList());
-  //     });
-  //   }
-  // }
-
-  // Save messages to SharedPreferences
-  // Future<void> _saveMessages() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final savedMessages = _messages.map((message) {
-  //     return '${message['sender']}|${message['message']}';
-  //   }).toList();
-  //   await prefs.setStringList('messages', savedMessages);
-  // }
-
   Future<void> _fetchAiResponse(String prompt) async {
     try {
       await _gemini.text(prompt).then((response) {
@@ -68,7 +45,6 @@ class _ChatStuState extends State<ChatStu> {
     setState(() {
       _messages.add({'sender': 'ai', 'message': message});
       _isLoading = false;
-      // _saveMessages(); // Save messages after update
     });
   }
 
@@ -79,32 +55,18 @@ class _ChatStuState extends State<ChatStu> {
       _messages.add({'sender': 'student', 'message': _controller.text});
       _isLoading = true;
       _controller.clear();
-      // _saveMessages(); // Save messages after sending
     });
 
     _fetchAiResponse(_messages.last['message']!);
   }
 
-  @override
-  void initState() {
-    super.initState();
-    // _loadMessages(); // Load saved messages on startup
+  // دالة لإعادة تحميل الصفحة
+  void _refreshPage() {
+    setState(() {
+      _messages.clear(); // مسح جميع الرسائل
+      _isLoading = false; // إعادة تعيين حالة التحميل
+    });
   }
-
-  // Clear all saved data from SharedPreferences
-  // Future<void> _clearMessages() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   await prefs.remove('messages'); // Remove saved messages when refreshing
-  // }
-
-  // Refresh the screen by clearing and reloading the messages
-  // void _refreshPage() async {
-  //   await _clearMessages(); // Clear messages from SharedPreferences
-  //   setState(() {
-  //     _messages.clear();  // Clear messages from the UI
-  //   });
-  //   _loadMessages(); // Reload saved messages
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -119,19 +81,18 @@ class _ChatStuState extends State<ChatStu> {
           "Chat AI",
           style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: getRandomColor(), // Randomly changing AppBar color
+        backgroundColor: getRandomColor(), // تغيير لون AppBar بشكل عشوائي
         centerTitle: true,
         elevation: 0,
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white),
-            onPressed: (){},
-            // _refreshPage, // Refresh the page when clicked
+            onPressed: _refreshPage, // استدعاء دالة إعادة التحميل عند الضغط
           ),
         ],
       ),
       body: Container(
-        color: Colors.white, // Setting background color to white
+        color: Colors.white, // تعيين لون الخلفية إلى الأبيض
         child: Column(
           children: [
             Expanded(
@@ -150,12 +111,12 @@ class _ChatStuState extends State<ChatStu> {
                           horizontal: 16, vertical: 12),
                       decoration: BoxDecoration(
                         color: message['sender'] == 'student'
-                            ? Colors.blueAccent // Student's messages in blue accent
-                            : Colors.grey[300], // AI's messages in soft grey
+                            ? Colors.blueAccent // رسائل الطالب باللون الأزرق
+                            : Colors.grey[300], // رسائل الذكاء الاصطناعي باللون الرمادي
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black26, // Softer shadow
+                            color: Colors.black26, // ظل ناعم
                             blurRadius: 6,
                             offset: Offset(2, 4),
                           ),
@@ -180,8 +141,8 @@ class _ChatStuState extends State<ChatStu> {
               const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: LinearProgressIndicator(
-                  color: Colors.blue, // Matching the loading indicator with the app's theme
-                  minHeight: 4, // Adjust the height of the linear indicator
+                  color: Colors.blue, // لون مؤشر التحميل يتناسب مع سمة التطبيق
+                  minHeight: 4, // ضبط ارتفاع المؤشر
                 ),
               ),
             Padding(
@@ -191,11 +152,11 @@ class _ChatStuState extends State<ChatStu> {
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey[100], // Soft grey background for the input area
+                        color: Colors.grey[100], // خلفية رمادية ناعمة لمنطقة الإدخال
                         borderRadius: BorderRadius.circular(30),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black54, // Subtle shadow to make it pop
+                            color: Colors.black54, // ظل خفيف لإبراز المنطقة
                             blurRadius: 6,
                             offset: Offset(2, 4),
                           ),

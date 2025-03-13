@@ -37,14 +37,13 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // final SharedPreferences prefs;
-  // const MyApp({super.key, required this.prefs});
+
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: AddTaskDoctor.routeName,
+      initialRoute: FirstScreen.routeName,
       routes: {
         HomeTab.routeName: (context) => HomeTab(),
         SubjectStu.routeName: (context) => SubjectStu(),

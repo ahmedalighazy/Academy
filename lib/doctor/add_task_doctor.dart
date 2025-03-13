@@ -4,6 +4,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
+import '../Auth/first_screen.dart';
+import '../resources_app/color_manager.dart';
+
 class AddTaskDoctor extends StatefulWidget {
   const AddTaskDoctor({super.key});
 
@@ -20,15 +23,59 @@ class _AddTaskDoctorState extends State<AddTaskDoctor> {
   TextEditingController taskController = TextEditingController();
   TextEditingController deadlineController = TextEditingController();
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Color(0xff2872A4), // لون الخلفية
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null && picked != DateTime.now()) {
+      setState(() {
+        deadlineController.text = "${picked.toLocal()}".split(' ')[0]; // تنسيق التاريخ
+      });
+    }
+  }
+
   void saveTask() async {
+    if (doctorNameController.text.isEmpty ||
+        courseController.text.isEmpty ||
+        gradeController.text.isEmpty ||
+        taskController.text.isEmpty ||
+        deadlineController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "يرجى ملء جميع الحقول",
+            style: TextStyle(fontSize: 16),
+          ),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+
     try {
       var box = Hive.box<TaskData>('tasks');
       TaskData newTask = TaskData(
-          doctorName: doctorNameController.text,
-          courseName: courseController.text,
-          grade: gradeController.text,
-          task: taskController.text,
-          deadline: deadlineController.text);
+        doctorName: doctorNameController.text,
+        courseName: courseController.text,
+        grade: gradeController.text,
+        task: taskController.text,
+        deadline: deadlineController.text,
+      );
       await box.add(newTask);
       doctorNameController.clear();
       courseController.clear();
@@ -38,7 +85,7 @@ class _AddTaskDoctorState extends State<AddTaskDoctor> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            "تم ارسال Task",
+            "تم ارسال Task بنجاح",
             style: TextStyle(fontSize: 16),
             textAlign: TextAlign.center,
           ),
@@ -74,12 +121,26 @@ class _AddTaskDoctorState extends State<AddTaskDoctor> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.popAndPushNamed(context, FirstScreen.routeName);
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: ColorManager.white,
+            )),
         actions: [
           InkWell(
               onTap: () {
                 Navigator.pushNamed(context, HomeTech.routeName);
               },
-              child: Icon(Icons.arrow_forward_outlined))
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.task,
+                  color: ColorManager.white,
+                ),
+              ))
         ],
         backgroundColor: Color(0xff2872A4),
         title: Text(
@@ -89,113 +150,185 @@ class _AddTaskDoctorState extends State<AddTaskDoctor> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            /// Doctor Name
-            TextField(
-              controller: doctorNameController,
-              textAlign: TextAlign.end,
-              decoration: InputDecoration(
+        padding: const EdgeInsets.all(16.0),
+        child:SingleChildScrollView(
+          child: Column(
+            children: [
+              // اسم الدكتور
+              TextField(
+                controller: doctorNameController,
+                textAlign: TextAlign.end,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.grey[100],
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25)),
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide.none),
                   suffixIcon: Icon(
                     Icons.school,
-                    color: Colors.black,
+                    color: Colors.blue,
                     size: 35,
                   ),
                   hintText: "اسم الدكتور",
-                  hintStyle:
-                      TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-            ),
-            SizedBox(
-              height: 10,
-            ),
+                  hintStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[600]),
+                  contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
 
-            /// المقرر الدراسي
-            TextField(
-              controller: courseController,
-              textAlign: TextAlign.end,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25)),
-                  hintText: "المقرر الدراسي",
-                  hintStyle:
-                      TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-
-            /// الفرقة الدراسية
-            TextField(
-              controller: gradeController,
-              textAlign: TextAlign.end,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25)),
-                  hintText: "الفرقة الدراسية",
-                  hintStyle:
-                      TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-
-            /// المهمة
-            Expanded(
-              child: TextField(
-                controller: taskController,
-                maxLines: null,
-                expands: true,
+              // المقرر الدراسي
+              TextField(
+                controller: courseController,
                 textAlign: TextAlign.end,
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25)),
-                    hintMaxLines: 4,
-                    hintText: "الواجب الدراسي",
-                    hintStyle:
-                        TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide.none),
+                  hintText: "المقرر الدراسي",
+                  hintStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[600]),
+                  contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                ),
               ),
-            ),
+              SizedBox(
+                height: 15,
+              ),
 
-            //موعد التسليم
-            TextField(
-              controller: deadlineController,
-              textAlign: TextAlign.end,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Colors.black, width: 10)),
-                hintText: "موعد التسليم",
-                hintStyle: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              // الفرقة الدراسية
+              TextField(
+                controller: gradeController,
+                textAlign: TextAlign.end,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide.none),
+                  hintText: "الفرقة الدراسية",
+                  hintStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[600]),
+                  contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: pickFile,
-                  child: Icon(
-                    Icons.file_present_outlined,
-                    size: 35,
+              SizedBox(
+                height: 20,
+              ),
+
+              // المهمة (الواجب الدراسي)
+              TextField(
+                controller: taskController,
+                maxLines: 5, // تحديد عدد الأسطر
+                textAlign: TextAlign.end,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide.none),
+                  hintText: "الواجب الدراسي",
+                  hintStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[600]),
+                  contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+
+              // موعد التسليم مع زر اختيار التاريخ داخل الحقل
+              TextField(
+                controller: deadlineController,
+                textAlign: TextAlign.end,
+                readOnly: true, // يجعل الحقل للقراءة فقط
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide.none),
+                  hintText: "موعد التسليم",
+                  hintStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[600]),
+                  contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                  suffixIcon: GestureDetector(
+                    onTap: () => _selectDate(context), // فتح تقويم اختيار التاريخ
+                    child: Icon(
+                      Icons.calendar_today,
+                      color: Color(0xff2872A4),
+                      size: 30,
+                    ),
                   ),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
-                GestureDetector(
-                  onTap: saveTask,
-                  child: Icon(
-                    Icons.save,
-                    size: 35,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+
+              // أزرار الحفظ والتحميل
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: pickFile,
+                    child: Container(
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.blue, Colors.lightBlue],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blue.withOpacity(0.3),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        Icons.file_present_outlined,
+                        size: 35,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                )
-              ],
-            )
-          ],
+                  SizedBox(
+                    width: 20,
+                  ),
+                  GestureDetector(
+                    onTap: saveTask,
+                    child: Container(
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.green, Colors.lightGreen],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.green.withOpacity(0.3),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        Icons.save,
+                        size: 35,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
