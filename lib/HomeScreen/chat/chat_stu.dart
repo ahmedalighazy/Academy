@@ -1,3 +1,4 @@
+import 'package:acadmy/HomeScreen/Home_tab.dart';
 import 'package:acadmy/resources_app/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
@@ -74,25 +75,25 @@ class _ChatStuState extends State<ChatStu> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.popAndPushNamed(context, HomeTab.routeName);
             },
             icon: Icon(Icons.arrow_back, color: ColorManager.white)),
         title: const Text(
-          "Chat AI",
+          "Boot For You",
           style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: getRandomColor(), // تغيير لون AppBar بشكل عشوائي
+        backgroundColor: getRandomColor(),
         centerTitle: true,
         elevation: 0,
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white),
-            onPressed: _refreshPage, // استدعاء دالة إعادة التحميل عند الضغط
+            onPressed: _refreshPage,
           ),
         ],
       ),
       body: Container(
-        color: Colors.white, // تعيين لون الخلفية إلى الأبيض
+        color: Colors.white,
         child: Column(
           children: [
             Expanded(

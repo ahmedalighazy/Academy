@@ -35,7 +35,7 @@ class _LoginState extends State<Login> {
           appBar: AppBar(
             leading: InkWell(
               onTap: () {
-                Navigator.popAndPushNamed(context, FirstScreen.routeName);
+                Navigator.popAndPushNamed(context, RegisterScreen.routeName);
               },
               child: Icon(
                 Icons.arrow_back,

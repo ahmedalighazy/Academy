@@ -23,7 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String password = '';
   String rePassword = '';
   bool isLoading = false;  // متغير للتحكم في حالة التحميل
-  var formKey = GlobalKey<FormState>();
+  var formKey = GlobalKey<FormState>(); //validation
 
   static checkHiveData() async {
     String? name = await HivePreferenceUtil.getName();
@@ -46,7 +46,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: AppBar(
+          appBar:
+          AppBar(
             leading: InkWell(
               onTap: () {
                 Navigator.of(context).pop();
@@ -66,7 +67,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             centerTitle: true,
           ),
-          body: SingleChildScrollView(
+          body:
+          SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.03,
@@ -108,10 +110,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return null;
                       },
                     ),
+                    ///First Name
                     // Enter last name
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: TextFormField(
+                      child:
+                      TextFormField(
                         decoration: InputDecoration(
                             labelText: 'Last Name',
                             labelStyle:
@@ -140,6 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           return null;
                         },
                       ),
+                      /// last Name
                     ),
                     // Enter user name
                     Padding(
@@ -177,7 +182,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Enter email
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
-                      child: TextFormField(
+                      child:
+                      TextFormField(
                         decoration: InputDecoration(
                             labelText: 'Email',
                             labelStyle:
@@ -212,11 +218,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           return null;
                         },
                       ),
+                      ///Email
                     ),
                     // Enter password
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
-                      child: TextFormField(
+                      child:
+
+                      TextFormField(
                         decoration: InputDecoration(
                             labelText: 'Password',
                             labelStyle:
@@ -248,6 +257,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           return null;
                         },
                       ),
+                      ///Password
                     ),
                     // Enter rePassword
                     TextFormField(
@@ -282,6 +292,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return null;
                       },
                     ),
+                    ///Re-enter Password
                     Padding(
                       padding: const EdgeInsets.only(top: 25),
                       child: GestureDetector(

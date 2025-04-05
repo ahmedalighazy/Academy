@@ -1,5 +1,5 @@
-import 'package:acadmy/HomeScreen/chat/chat_stu.dart';
 import 'package:flutter/material.dart';
+import 'package:acadmy/HomeScreen/chat/chat_stu.dart';
 import 'package:acadmy/resources_app/color_manager.dart';
 
 class Course {
@@ -30,7 +30,6 @@ class SubjectStu extends StatefulWidget {
 
 class _SubjectStuState extends State<SubjectStu> {
   final List<AcademicYear> academicYears = [
-    // First Year
     AcademicYear(
       yearName: 'الفرقة الأولى',
       semester1: [
@@ -56,7 +55,6 @@ class _SubjectStuState extends State<SubjectStu> {
         Course(name: 'قضايا مجتمعية', professor: 'مروة الششتاوي'),
       ],
     ),
-    // Second Year
     AcademicYear(
       yearName: 'الفرقة الثانية',
       semester1: [
@@ -81,7 +79,6 @@ class _SubjectStuState extends State<SubjectStu> {
         Course(name: 'الأصول الاجتماعية للتربية', professor: 'أماني غبور'),
       ],
     ),
-    // Third Year
     AcademicYear(
       yearName: 'الفرقة الثالثة',
       semester1: [
@@ -106,7 +103,6 @@ class _SubjectStuState extends State<SubjectStu> {
         Course(name: 'علم النفس التربوي', professor: 'أماني غبور'),
       ],
     ),
-    // Fourth Year
     AcademicYear(
       yearName: 'الفرقة الرابعة',
       semester1: [
@@ -396,7 +392,7 @@ class GroupDetailPage extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChatStu(),
+              builder: (context) => CourseExamPage(course: course),
             ),
           );
         },
@@ -415,16 +411,26 @@ class GroupDetailPage extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: ColorManager.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  Icons.menu_book,
-                  color: ColorManager.primary,
-                  size: 30,
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CourseExamPage(course: course),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: ColorManager.primary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    Icons.menu_book,
+                    color: ColorManager.primary,
+                    size: 30,
+                  ),
                 ),
               ),
               SizedBox(width: 16),
@@ -457,16 +463,26 @@ class GroupDetailPage extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: Row(
                   children: [
-                    Container(
-                      padding: EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: ColorManager.primary.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Icon(
-                        Icons.chat_outlined,
-                        color: ColorManager.primary,
-                        size: 30,
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatStu(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: ColorManager.primary.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          Icons.chat_outlined,
+                          color: ColorManager.primary,
+                          size: 30,
+                        ),
                       ),
                     ),
                   ],
@@ -479,3 +495,622 @@ class GroupDetailPage extends StatelessWidget {
     );
   }
 }
+
+class Question {
+  final String text;
+  final List<String> options;
+  final int correctAnswerIndex;
+
+  Question({
+    required this.text,
+    required this.options,
+    required this.correctAnswerIndex,
+  });
+}
+
+class CourseExamPage extends StatefulWidget {
+  final Course course;
+
+  const CourseExamPage({required this.course});
+
+  @override
+  _CourseExamPageState createState() => _CourseExamPageState();
+}
+
+class _CourseExamPageState extends State<CourseExamPage> {
+  late List<Question> questions;
+  List<int?> selectedAnswers = [];
+  bool examSubmitted = false;
+  int score = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    questions = _generateQuestionsForCourse(widget.course.name);
+    selectedAnswers = List.filled(questions.length, null);
+  }
+
+  List<Question> _generateQuestionsForCourse(String courseName) {
+    switch (courseName) {
+      case 'مقدمة في البرمجة':
+        return [
+          Question(
+            text: 'ما هي أول لغة برمجة عالية المستوى؟',
+            options: ['كوبول', 'فورتران', 'أسمبلي', 'بايثون'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'ما هي بنية البيانات التي تستخدم مبدأ LIFO؟',
+            options: ['الطابور', 'المكدس', 'القائمة', 'الشجرة'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'ما هو نوع اللغة التي تحتاج إلى مترجم (Compiler)؟',
+            options: ['لغة مفسرة', 'لغة مترجمة', 'لغة ترميز', 'لغة استعلام'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'ما هي لغة البرمجة المستخدمة لإنشاء تطبيقات iOS؟',
+            options: ['جافا', 'سويفت', 'كوتلن', 'سي شارب'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'ما هي أداة تستخدم لتتبع الأخطاء في البرمجة؟',
+            options: ['المترجم', 'المصحح', 'المفسر', 'المحرر'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'ما هو البرنامج الذي يحول الكود المصدري إلى كود آلة؟',
+            options: ['المترجم', 'المفسر', 'المحرر', 'المصحح'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هي لغة البرمجة التي طورتها مايكروسوفت؟',
+            options: ['Java', 'C#', 'Python', 'Ruby'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'ما هي دالة البدء في لغة C++؟',
+            options: ['start()', 'begin()', 'main()', 'init()'],
+            correctAnswerIndex: 2,
+          ),
+          Question(
+            text: 'ما هي لغة البرمجة التي تستخدم لاستعلام قواعد البيانات؟',
+            options: ['SQL', 'HTML', 'CSS', 'JavaScript'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هي أداة التحكم في الإصدارات الأكثر شيوعًا؟',
+            options: ['SVN', 'Git', 'Mercurial', 'CVS'],
+            correctAnswerIndex: 1,
+          ),
+        ];
+
+      case 'معالجة النصوص':
+        return [
+          Question(
+            text: 'ما هو البرنامج الأكثر استخدامًا لمعالجة النصوص؟',
+            options: ['Microsoft Word', 'Excel', 'Photoshop', 'Visual Studio'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هو اختصار حفظ المستند في معظم برامج معالجة النصوص؟',
+            options: ['Ctrl+S', 'Ctrl+C', 'Ctrl+V', 'Ctrl+X'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هي وظيفة مفتاح F7 في برامج معالجة النصوص؟',
+            options: ['فحص إملائي', 'حفظ المستند', 'طباعة المستند', 'إغلاق البرنامج'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هي المسافة القياسية بين الأسطر في المستندات الرسمية؟',
+            options: ['1.0', '1.5', '2.0', '2.5'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'ما هو حجم الخط القياسي للمستندات الرسمية؟',
+            options: ['10', '12', '14', '16'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'ما هي وظيفة زر Ctrl+B في معالجة النصوص؟',
+            options: ['تغميق النص', 'توسيط النص', 'نسخ النص', 'حفظ المستند'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هو امتداد ملف Microsoft Word الافتراضي؟',
+            options: ['.txt', '.docx', '.pdf', '.xlsx'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'ما هي الميزة التي تتيح لك رؤية كيف سيبدو المستند عند الطباعة؟',
+            options: ['معاينة قبل الطباعة', 'عرض تخطيط الصفحة', 'عرض القراءة', 'عرض الويب'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هو اختصار التراجع عن الإجراء الأخير؟',
+            options: ['Ctrl+Z', 'Ctrl+Y', 'Ctrl+X', 'Ctrl+C'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هي وظيفة علامة التبويب "مراجع" في Word؟',
+            options: ['إضافة الجداول', 'إضافة الفهارس والهوامش', 'تغيير الخط', 'إدراج الصور'],
+            correctAnswerIndex: 1,
+          ),
+        ];
+
+      case 'تكنولوجيا المعلومات':
+        return [
+          Question(
+            text: 'ما هي مكونات الحاسوب الأساسية؟',
+            options: ['لوحة المفاتيح والفأرة', 'المعالج والذاكرة', 'الشاشة والسماعات', 'الطابعة والماسح'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'ما هي وحدة قياس سرعة المعالج؟',
+            options: ['بت', 'بايت', 'هيرتز', 'واط'],
+            correctAnswerIndex: 2,
+          ),
+          Question(
+            text: 'ما هي لغة الآلة التي يفهمها الحاسوب؟',
+            options: ['النظام الثنائي (0 و1)', 'لغة التجميع', 'لغة الجافا', 'لغة البايثون'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هي وظيفة نظام التشغيل؟',
+            options: ['إدارة موارد الحاسوب', 'تصفح الإنترنت', 'تحرير النصوص', 'إنشاء العروض'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هي أنواع الذاكرة في الحاسوب؟',
+            options: ['RAM وROM', 'HDD وSSD', 'USB وCD', 'DVD وBlu-ray'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هو البرنامج المسؤول عن إدارة الملفات في Windows؟',
+            options: ['المستكشف', 'المحول', 'المحرر', 'المفسر'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هي أسرع أنواع وسائط التخزين؟',
+            options: ['HDD', 'SSD', 'USB', 'CD'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'ما هي لغة البرمجة المستخدمة لإنشاء صفحات ويب تفاعلية؟',
+            options: ['HTML', 'CSS', 'JavaScript', 'Python'],
+            correctAnswerIndex: 2,
+          ),
+          Question(
+            text: 'ما هي تقنية الاتصال اللاسلكي قصير المدى؟',
+            options: ['Wi-Fi', 'Bluetooth', '4G', 'GPS'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'ما هو البروتوكول المستخدم في نقل صفحات الويب؟',
+            options: ['HTTP', 'FTP', 'SMTP', 'TCP'],
+            correctAnswerIndex: 0,
+          ),
+        ];
+
+      case 'نظم قواعد البيانات':
+        return [
+          Question(
+            text: 'ما هو نظام إدارة قواعد البيانات العلائقية الأكثر شهرة؟',
+            options: ['MySQL', 'MongoDB', 'Oracle', 'SQL Server'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هي لغة الاستعلام المستخدمة في قواعد البيانات العلائقية؟',
+            options: ['SQL', 'NoSQL', 'Java', 'Python'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هي العملية التي تضمن عدم تكرار البيانات في قاعدة البيانات؟',
+            options: ['التطبيع', 'التكرار', 'الدمج', 'التقسيم'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هو العنصر الأساسي في قاعدة البيانات الذي يحتوي على البيانات؟',
+            options: ['الجداول', 'الاستعلامات', 'النماذج', 'التقارير'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هي الخاصية التي تضمن أن كل سجل في الجدول فريد؟',
+            options: ['المفتاح الأساسي', 'المفتاح الخارجي', 'القيد', 'الفهرس'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هي وظيفة المفتاح الخارجي في قاعدة البيانات؟',
+            options: ['إنشاء علاقة بين الجداول', 'حذف البيانات', 'تعديل الهيكل', 'إنشاء نسخة احتياطية'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هو نوع قاعدة البيانات الذي لا يستخدم الجداول؟',
+            options: ['العلائقية', 'الكائنية', 'الوثائقية', 'الشبكية'],
+            correctAnswerIndex: 2,
+          ),
+          Question(
+            text: 'ما هي الأوامر الرئيسية في لغة SQL؟',
+            options: ['SELECT, INSERT, UPDATE, DELETE', 'READ, WRITE, EDIT, REMOVE', 'GET, POST, PUT, PATCH', 'OPEN, CLOSE, SAVE, EXIT'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هي وظيفة الأمر SELECT في SQL؟',
+            options: ['إدراج بيانات', 'استرجاع بيانات', 'تحديث بيانات', 'حذف بيانات'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'ما هي الخاصية التي تضمن تنفيذ جميع الأوامر أو لا ينفذ أي منها؟',
+            options: ['المعاملة', 'الانتقال', 'الالتزام', 'التراجع'],
+            correctAnswerIndex: 2,
+          ),
+        ];
+
+    // يمكنك إضافة المزيد من المواد هنا بنفس الطريقة
+      default:
+        return [
+          Question(
+            text: 'ما هي عاصمة مصر؟',
+            options: ['القاهرة', 'الإسكندرية', 'الجيزة', 'أسوان'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'كم عدد أيام الأسبوع؟',
+            options: ['5', '6', '7', '8'],
+            correctAnswerIndex: 2,
+          ),
+          Question(
+            text: 'ما هو لون التفاحة الناضجة؟',
+            options: ['أزرق', 'أحمر', 'أصفر', 'أخضر'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'ما هو أكبر كوكب في المجموعة الشمسية؟',
+            options: ['الأرض', 'المشتري', 'المريخ', 'زحل'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'من هو مخترع المصباح الكهربائي؟',
+            options: ['توماس إديسون', 'ألبرت أينشتاين', 'نيوتن', 'جاليليو'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'ما هي اللغة الرسمية في البرازيل؟',
+            options: ['الإسبانية', 'الإنجليزية', 'البرتغالية', 'الفرنسية'],
+            correctAnswerIndex: 2,
+          ),
+          Question(
+            text: 'كم عدد حروف اللغة العربية؟',
+            options: ['26', '28', '30', '32'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'ما هو أطول نهر في العالم؟',
+            options: ['النيل', 'الأمازون', 'الميسيسيبي', 'الدانوب'],
+            correctAnswerIndex: 0,
+          ),
+          Question(
+            text: 'في أي عام هبط الإنسان على القمر؟',
+            options: ['1965', '1969', '1972', '1975'],
+            correctAnswerIndex: 1,
+          ),
+          Question(
+            text: 'ما هو رمز عنصر الذهب في الجدول الدوري؟',
+            options: ['Ag', 'Au', 'Gd', 'Go'],
+            correctAnswerIndex: 1,
+          ),
+        ];
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          Navigator.pop(context);
+        },
+          icon: Icon(Icons.arrow_back,color: ColorManager.white,),),
+        title: Text('اختبار مادة ${widget.course.name}',style: TextStyle(
+          fontSize: 25,
+          color: ColorManager.white
+        ),),
+        centerTitle: true,
+        backgroundColor: ColorManager.primary,
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              'اختبار ${widget.course.name}',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: ColorManager.darkBlue,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'أستاذ المادة: ${widget.course.professor}',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.grey[600],
+              ),
+            ),
+            SizedBox(height: 20),
+            ...questions.map((question) => _buildQuestionCard(question)).toList(),
+            SizedBox(height: 20),
+            if (examSubmitted) _buildResultCard(),
+            SizedBox(height: 20),
+            Center(
+              child:
+              ElevatedButton(
+                onPressed: examSubmitted
+                    ? null
+                    : () {
+                  int correctAnswers = 0;
+                  for (int i = 0; i < questions.length; i++) {
+                    if (selectedAnswers[i] == questions[i].correctAnswerIndex) {
+                      correctAnswers++;
+                    }
+                  }
+                  setState(() {
+                    score = (correctAnswers / questions.length * 100).round();
+                    examSubmitted = true;
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorManager.primary,
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  examSubmitted ? 'تم الإرسال' : 'تسليم الإجابات',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuestionCard(Question question) {
+    final int questionIndex = questions.indexOf(question);
+    return Container(
+      margin: EdgeInsets.only(bottom: 20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        gradient: LinearGradient(
+          colors: [
+            ColorManager.lightPrimary.withOpacity(0.1),
+            ColorManager.primary.withOpacity(0.05),
+          ],
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Material(
+          color: Colors.transparent,
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end ,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: ColorManager.primary,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        'السؤال ${questionIndex + 1}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 15),
+                Text(
+                  question.text,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: ColorManager.darkBlue,
+                    height: 1.4,
+                  ),
+                ),
+                SizedBox(height: 20),
+                ...question.options.map((option) {
+                  final int optionIndex = question.options.indexOf(option);
+                  return _buildOptionItem(
+                    questionIndex,
+                    optionIndex,
+                    option,
+                    question.correctAnswerIndex,
+                  );
+                }).toList(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  Widget _buildOptionItem(
+      int questionIndex,
+      int optionIndex,
+      String option,
+      int correctAnswerIndex,
+      ) {
+    final bool isSelected = selectedAnswers[questionIndex] == optionIndex;
+    final bool isCorrect = optionIndex == correctAnswerIndex;
+    final bool showResults = examSubmitted;
+
+    Color borderColor = Colors.grey[300]!;
+    Color bgColor = Colors.transparent;
+    Color textColor = ColorManager.darkBlue;
+
+    if (showResults) {
+      if (isCorrect) {
+        bgColor = Colors.green.withOpacity(0.15);
+        borderColor = Colors.green;
+      } else if (isSelected && !isCorrect) {
+        bgColor = Colors.red.withOpacity(0.15);
+        borderColor = Colors.red;
+      }
+    } else if (isSelected) {
+      borderColor = ColorManager.primary;
+      bgColor = ColorManager.primary.withOpacity(0.1);
+    }
+
+    return Padding(
+      padding: EdgeInsets.only(bottom: 12),
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(
+            color: borderColor,
+            width: 1.5,
+          ),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(15),
+            onTap: examSubmitted ? null : () {
+              setState(() {
+                selectedAnswers[questionIndex] = optionIndex;
+              });
+            },
+            child: Padding(
+              padding: EdgeInsets.all(18),
+              child: Row(
+                children: [
+                  Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: borderColor,
+                        width: 2,
+                      ),
+                    ),
+                    child: Center(
+                      child: Container(
+                        width: 14,
+                        height: 14,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: isSelected ? ColorManager.primary : Colors.transparent,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 20),
+                  Expanded(
+                    child: Text(
+                      option,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: textColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  if (showResults && isCorrect)
+                    Icon(Icons.check_circle, color: Colors.green),
+                  if (showResults && isSelected && !isCorrect)
+                    Icon(Icons.cancel, color: Colors.red),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  Widget _buildResultCard() {
+    final bool passed = score >= 60;
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(25),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        gradient: LinearGradient(
+          colors: passed
+              ? [Colors.green.shade100, Colors.green.shade50]
+              : [Colors.red.shade100, Colors.red.shade50],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Column(
+        children: [
+          Icon(
+            passed ? Icons.celebration : Icons.sentiment_dissatisfied,
+            size: 60,
+            color: passed ? Colors.green : Colors.red,
+          ),
+          SizedBox(height: 20),
+          Text(
+            passed ? 'مبروك! لقد نجحت' : 'للأسف لم تنجح',
+            style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+              color: passed ? Colors.green : Colors.red,
+            ),
+          ),
+          SizedBox(height: 15),
+          Text(
+            'النسبة: $score%',
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.w900,
+              color: passed ? Colors.green : Colors.red,
+            ),
+          ),
+          SizedBox(height: 20),
+          Text(
+            passed
+                ? 'تميزت في الإجابات، استمر في التقدم!'
+                : 'لا تقلق، يمكنك إعادة المحاولة لاحقًا',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.grey[700],
+              height: 1.4,
+            ),
+          ),
+        ],
+      ),
+    );
+  }}

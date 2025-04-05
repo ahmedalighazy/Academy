@@ -43,8 +43,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: FirstScreen.routeName,
+      initialRoute: HomeTab.routeName,
       routes: {
+        FirstScreen.routeName : (context) => FirstScreen(),
         HomeTab.routeName: (context) => HomeTab(),
         SubjectStu.routeName: (context) => SubjectStu(),
         ChatStu.routeName: (context) => ChatStu(),
@@ -52,7 +53,6 @@ class MyApp extends StatelessWidget {
         HomeTech.routeName: (context) => HomeTech(),
         Login.routeName: (context) => Login(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
-        FirstScreen.routeName : (context) => FirstScreen(),
         AddTaskDoctor.routeName : (context) => AddTaskDoctor()
       },
     );

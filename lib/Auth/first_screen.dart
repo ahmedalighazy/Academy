@@ -52,7 +52,7 @@ class _FirstScreenState extends State<FirstScreen> with SingleTickerProviderStat
             centerTitle: true,
             title: Text('Academy',style: TextStyle(
               color: ColorManager.white,
-              fontSize: 30
+              fontSize: 35
             ),),
             backgroundColor: Colors.transparent,
             elevation: 0,
@@ -68,11 +68,13 @@ class _FirstScreenState extends State<FirstScreen> with SingleTickerProviderStat
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.2,
                     width: MediaQuery.of(context).size.width * 0.7,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
+                    child:
+                    ElevatedButton(
+                      style:
+                      ElevatedButton.styleFrom(
                         backgroundColor: Color(0xdff2872A4),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         elevation: 5,
                         padding: EdgeInsets.symmetric(vertical: 15),
